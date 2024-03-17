@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "xPath Locator",
+  "description": "Find XPath of selected element on the webpage.",
+  "version": "0.1.0",
+  "background": {
+    "service_worker": "app/src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/"],
+      "css": ["app/src/styles.css"],
+      "js": ["app/src/content_scripts.js"]
+    }
+  ],
+  "icons": {
+    "16": "images/icon-16.png",
+    "32": "images/icon-32.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "action": {
+    "default_popup": "app/src/popup.html",
+    "default_icon": "images/icon-256.png"
+  },
+  "permissions": ["activeTab", "contextMenus"],
+  "host_permissions": ["*://*/*"]
+}

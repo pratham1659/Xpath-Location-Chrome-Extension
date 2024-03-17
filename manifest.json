@@ -1,24 +1,39 @@
 {
   "manifest_version": 3,
   "name": "XPath Locator",
-  "description": "Find XPath of selected element on the webpage.",
   "version": "1.0",
-  "icons": {
-    "16": "images/icon-16.png",
-    "32": "images/icon-32.png",
-    "48": "images/icon-48.png",
-    "128": "images/icon-128.png"
-  },
+  "description": "Display XPath of clicked elements",
+  "permissions": ["activeTab", "contextMenus"],
   "background": {
     "service_worker": "background.js"
   },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
   "action": {
-    "default_icon": {
-      "16": "images/icon-16.png",
-      "32": "images/icon-32.png",
-      "48": "images/icon-48.png",
-      "128": "images/icon-128.png"
+    "default_popup": "popup.html",
+    "default_title": "Click on any element to get the xPath",
+    "default_icon": "icon.png"
+  },
+  "commands": {
+    "toggle-xpath": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U",
+        "mac": "Command+Shift+U"
+      },
+      "description": "Toggle plugin"
     }
   },
-  "permissions": ["scripting", "activeTab"]
+  "options_ui": {
+    "page": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
 }
