@@ -1,12 +1,23 @@
-body {
-  font-family: Arial, sans-serif;
+.wrapper {
   text-align: center;
 }
 
-h1 {
-  color: #333;
+.getXpathBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-p {
-  color: #666;
+.getXpathBtn:hover {
+  background-color: #45a049;
+}
+
+.extension-highlight {
+  outline: 2px solid rgba(255, 0, 0, 0.5) !important;
+  outline-offset: 2px;
 }

@@ -1,4 +1,4 @@
-const browserAppData = this.browser || this.chrome;
+const browserAppData = chrome || browser; // Adjust for the browser API namespace
 const tabs = {};
 const inspectFile = "inspect.js";
 const activeIcon = "active-64.png";
@@ -6,13 +6,14 @@ const defaultIcon = "default-64.png";
 
 const inspect = {
   toggleActivate: (id, type, icon) => {
-    this.id = id;
     browserAppData.tabs.executeScript(id, { file: inspectFile }, () => {
       browserAppData.tabs.sendMessage(id, { action: type });
     });
-    browserAppData.browserAction.setIcon({ tabId: id, path: { 19: "icons/" + icon } });
+    browserAppData.action.setIcon({ tabId: id, path: { 19: "icons/" + icon } });
   },
 };
+
+// contentScript.js
 
 function isSupportedProtocolAndFileType(urlString) {
   if (!urlString) {
@@ -21,10 +22,12 @@ function isSupportedProtocolAndFileType(urlString) {
   const supportedProtocols = ["https:", "http:", "file:"];
   const notSupportedFiles = ["xml", "pdf", "rss"];
   const extension = urlString.split(".").pop().split(/\#|\?/)[0];
-  const url = document.createElement("a");
-  url.href = urlString;
-  return supportedProtocols.indexOf(url.protocol) !== -1 && notSupportedFiles.indexOf(extension) === -1;
+  const url = new URL(urlString); // Use URL object instead of creating anchor element
+  return supportedProtocols.includes(url.protocol) && !notSupportedFiles.includes(extension);
 }
+
+// Example usage:
+console.log(isSupportedProtocolAndFileType("https://example.com/file.txt"));
 
 function toggle(tab) {
   if (isSupportedProtocolAndFileType(tab.url)) {
@@ -68,12 +71,4 @@ browserAppData.commands.onCommand.addListener((command) => {
 });
 
 browserAppData.tabs.onUpdated.addListener(getActiveTab);
-
-if (browserAppData.browserAction) {
-  browserAppData.browserAction.onClicked.addListener(toggle);
-} else if (browserAppData.pageAction) {
-  // Handle page action API if browserAction is not available
-  browserAppData.pageAction.onClicked.addListener(toggle);
-} else {
-  console.error("Browser action API not found.");
-}
+browserAppData.action.onClicked.addListener(toggle);

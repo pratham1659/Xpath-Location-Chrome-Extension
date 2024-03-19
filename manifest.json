@@ -1,22 +1,26 @@
 {
   "manifest_version": 3,
-  "name": "XPath Locator",
-  "version": "1.0",
-  "description": "Display XPath of clicked elements",
-  "permissions": ["activeTab", "contextMenus"],
+  "name": "xPath Locator",
+  "description": "Click on any element to get the xPath",
+  "homepage_url": "https://github.com/trembacz/xpath-finder",
+  "version": "1.0.1",
+  "icons": {
+    "64": "icons/icon.png"
+  },
   "background": {
     "service_worker": "background.js"
   },
-  "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
-  },
   "action": {
-    "default_popup": "popup.html",
-    "default_title": "Click on any element to get the xPath",
-    "default_icon": "icon.png"
+    "default_icon": "icons/default-64.png",
+    "default_title": "Click on any element to get the xPath"
   },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": ["<all_urls>"],
+      "js": ["inspect.js"]
+    }
+  ],
   "commands": {
     "toggle-xpath": {
       "suggested_key": {
@@ -27,13 +31,7 @@
     }
   },
   "options_ui": {
-    "page": "popup.html"
+    "page": "options.html"
   },
-  "content_scripts": [
-    {
-      "all_frames": true,
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ]
+  "permissions": ["activeTab", "storage", "contextMenus"]
 }
